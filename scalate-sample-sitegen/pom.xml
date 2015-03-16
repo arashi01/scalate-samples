@@ -102,11 +102,11 @@
               <goal>sitegen</goal>
             </goals>
             <phase>process-classes</phase>
+            <configuration>
+              <webappDirectory>${basedir}/src</webappDirectory>
+            </configuration>
           </execution>
         </executions>
-        <configuration>
-          <warSourceDirectory>${basedir}/src</warSourceDirectory>
-        </configuration>
       </plugin>
 
       <plugin>
