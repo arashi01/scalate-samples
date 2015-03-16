@@ -22,11 +22,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.scalatra.scalate.samples</groupId>
-    <artifactId>samples_2.10</artifactId>
+    <artifactId>samples</artifactId>
     <version>1.7.1-SNAPSHOT</version>
   </parent>
   
-  <artifactId>scalate-sample-precompile_2.10</artifactId>
+  <artifactId>scalate-sample-precompile</artifactId>
   <packaging>war</packaging>
 
   <name>${project.artifactId}</name>
@@ -39,16 +39,22 @@
   <dependencies>
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-war_2.10</artifactId>
-      <version>${project.version}</version>
+      <artifactId>scalate-war_${version.scala.binary}</artifactId>
+      <version>${version.scalate}</version>
       <type>war</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${version.scala}</version>
     </dependency>
 
     <!-- lets exclude the compiler from the WAR -->
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-compiler</artifactId>
-      <version>${scala-version}</version>
+      <version>${version.scala}</version>
       <scope>provided</scope>
     </dependency>
 
@@ -60,8 +66,8 @@
     </dependency>
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-page_2.10</artifactId>
-      <version>${project.version}</version>
+      <artifactId>scalate-page_${version.scala.binary}</artifactId>
+      <version>${version.scalate}</version>
     </dependency>
     <dependency>
       <groupId>org.markdownj</groupId>
@@ -81,14 +87,19 @@
     <!-- testing -->
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-test_2.10</artifactId>
-      <version>${project.version}</version>
+      <artifactId>scalate-test_${version.scala.binary}</artifactId>
+      <version>${version.scalate}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+      </plugin>
+
       <plugin>
         <inherited>true</inherited>
         <artifactId>maven-source-plugin</artifactId>
@@ -104,7 +115,7 @@
 
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${surefire-plugin-version}</version>
+        <version>${version.plugin.maven.surefire}</version>
         <configuration>
           <forkMode>once</forkMode>
           <!-- these settings are mandatory to avoid SureFire giving a bogus system property to the web container -->
@@ -122,6 +133,7 @@
 
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
       </plugin>
       
@@ -146,34 +158,24 @@
           <mainClass>org.scalatra.scalate.test.Main</mainClass>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.scalatra.scalate</groupId>
+        <artifactId>scalate-maven-plugin_${version.scala.binary}</artifactId>
+        <executions>
+          <execution>
+            <id>precompile</id>
+            <goals>
+              <goal>precompile</goal>
+            </goals>
+            <phase>process-classes</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <warSourceDirectory>${basedir}/src</warSourceDirectory>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-  
-  <profiles>
-    <profile>
-      <id>jdk5</id>
-      <activation>
-        <jdk>1.5</jdk>
-      </activation>
-      
-      <build>
-        <plugins>
-          
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <excludes>
-                <!-- Jersey requires Java 1.6, so this test will fail. -->
-                <exclude>**/SampleTest.*</exclude>
-              </excludes>
-            </configuration>
-          </plugin>          
-
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
     
 </project>
 

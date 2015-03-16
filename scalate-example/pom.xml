@@ -22,7 +22,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.scalatra.scalate.samples</groupId>
-  <artifactId>scalate-example_2.10</artifactId>
+  <artifactId>scalate-example</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
@@ -30,73 +30,75 @@
   <description>A simple example showing how the various template engines differ</description>
 
   <prerequisites>
-    <maven>2.0.9</maven>
+    <maven>3.0.4</maven>
   </prerequisites>
 
   <properties>
     <!-- environment settings -->
     <jetty-port>8080</jetty-port>
-    <scalateEditor>${env.SCALATE_EDITOR}</scalateEditor>
+    <scalate.editor>${env.SCALATE_EDITOR}</scalate.editor>
     <scalate.workdir>${basedir}/target/_scalate</scalate.workdir>
     <scalate.package.resources>mygroup.myartifact.resources</scalate.package.resources>
     <scalate.mode>development</scalate.mode>
 
     <!-- version info -->
-    <jersey-version>1.5</jersey-version>
-    <jetty-version>7.2.1.v20101111</jetty-version>
-    <logback-version>0.9.26</logback-version>
-    <scala-version>2.9.0-1</scala-version>
-    <scalate-version>1.6.0-SNAPSHOT</scalate-version>
-    <servlet-api-version>2.5</servlet-api-version>
+    <version.jersey>1.9</version.jersey>
+    <version.logback>1.1.2</version.logback>
+    <version.scala.binary>2.10</version.scala.binary>
+    <version.scala>${version.scala.binary}.5</version.scala>
+    <version.scalate>1.7.1-SNAPSHOT</version.scalate>
+    <version.servletApi>2.5</version.servletApi>
 
     <!-- plugins -->
-    <jetty-plugin-version>7.2.1.v20101111</jetty-plugin-version>
-    <scala-plugin-version>2.15.0</scala-plugin-version>
-    <surefire-plugin-version>2.6</surefire-plugin-version>
-    <tomcat-plugin-version>1.1</tomcat-plugin-version>
-    <war-plugin-version>2.1.1</war-plugin-version>
+    <version.plugin.jetty>7.2.1.v20101111</version.plugin.jetty>
+    <version.plugin.scala>3.2.0</version.plugin.scala>
+    <version.plugin.scalate>1.7.1-SNAPSHOT</version.plugin.scalate>
+    <version.plugin.tomcat>1.1</version.plugin.tomcat>
+    <version.plugin.scalate>1.7.1-SNAPSHOT</version.plugin.scalate>
+    <version.plugin.maven.surefire>2.18.1</version.plugin.maven.surefire>
+    <version.plugin.maven.war>2.6</version.plugin.maven.war>
   </properties>
    
   <dependencies>
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
-      <version>${scala-version}</version>
+      <version>${version.scala}</version>
     </dependency>
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-compiler</artifactId>
-      <version>${scala-version}</version>
+      <version>${version.scala}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>${servlet-api-version}</version>
+      <version>${version.servletApi}</version>
       <scope>provided</scope>
     </dependency>
     
     <!-- for wiki markup -->
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-page_2.10</artifactId>
-      <version>${scalate-version}</version>
+      <artifactId>scalate-page_${version.scala.binary}</artifactId>
+      <version>${version.scalate}</version>
     </dependency>
     
     <!-- for sass/scss -->
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-jruby_2.10</artifactId>
-      <version>${scalate-version}</version>
+      <artifactId>scalate-jruby_${version.scala.binary}</artifactId>
+      <version>${version.scalate}</version>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-server</artifactId>
-      <version>${jersey-version}</version>
+      <version>${version.jersey}</version>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>${logback-version}</version>
+      <version>${version.logback}</version>
       <scope>runtime</scope>
       <optional>true</optional>
     </dependency>
@@ -104,102 +106,19 @@
     <!-- testing -->
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-test_2.10</artifactId>
-      <version>${scalate-version}</version>
+      <artifactId>scalate-test_${version.scala.binary}</artifactId>
+      <version>${version.scalate}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
-
-  <repositories>
-    <repository>
-      <id>repo1.maven</id>
-      <name>Maven Central Repo</name>
-      <url>http://repo1.maven.org/maven2/</url>
-    </repository>
-    <repository>
-      <id>fusesource.m2</id>
-      <name>FuseSource Community Release Repository</name>
-      <url>http://repo.fusesource.com/nexus/content/repositories/public</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>fusesource.m2-snapshot</id>
-      <name>FuseSource Community Snapshot Repository</name>
-      <url>http://repo.fusesource.com/nexus/content/repositories/snapshots</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-
-    <repository>
-      <id>java.net.m2</id>
-      <name>java.net Maven 2 Repo</name>
-      <url>http://download.java.net/maven/2</url>
-    </repository>
-
-    <repository>
-      <id>glassfish-repo-archive</id>
-      <name>Nexus repository collection for Glassfish</name>
-      <url>http://maven.glassfish.org/content/groups/glassfish</url>
-      <snapshots>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-
-    <repository>
-      <id>scala</id>
-      <name>Scala Tools</name>
-      <url>http://scala-tools.org/repo-releases</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>snapshots.scala-tools.org</id>
-      <name>Scala-Tools Maven2 Snapshot Repository</name>
-      <url>http://scala-tools.org/repo-snapshots</url>
-      <snapshots>
-        <enabled>true</enabled>
-        <!--updatePolicy>never</updatePolicy-->
-        <checksumPolicy>fail</checksumPolicy>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-        <!--updatePolicy>never</updatePolicy-->
-        <checksumPolicy>fail</checksumPolicy>
-      </releases>
-    </repository>
-    <repository>
-      <id>apache.snapshots</id>
-      <name>Apache Development Snapshot Repository</name>
-      <url>https://repository.apache.org/content/repositories/snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
   <build>
     <plugins>
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
-        <version>${scala-plugin-version}</version>
+        <version>${version.plugin.scala}</version>
         <executions>
           <execution>
             <goals>
@@ -213,17 +132,18 @@
             <jvmArg>-Xmx1024m</jvmArg>
           </jvmArgs>
           <args>
-            <!-- arg>-unchecked</arg -->
+            <arg>-unchecked</arg>
             <arg>-deprecation</arg>
+            <arg>-Xlint</arg>
           </args>
-          <scala-version>${scala-version}</scala-version>
+          <scalaVersion>${version.scala}</scalaVersion>
           <recompileMode>incremental</recompileMode>
         </configuration>
       </plugin>
 
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${surefire-plugin-version}</version>
+        <version>${version.plugin.maven.surefire}</version>
         <configuration>
           <forkMode>once</forkMode>
           <!-- these settings are mandatory to avoid SureFire giving a bogus system property to the web container -->
@@ -237,7 +157,7 @@
 
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
-        <version>${war-plugin-version}</version>
+        <version>${version.plugin.maven.war}</version>
         <configuration>
           <attachClasses>true</attachClasses>
         </configuration>
@@ -246,7 +166,7 @@
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <version>${jetty-plugin-version}</version>
+        <version>${version.plugin.jetty}</version>
         <configuration>
           <webAppConfig>
             <contextPath>/</contextPath>
@@ -260,7 +180,7 @@
             </systemProperty>
             <systemProperty>
               <name>scalate.editor</name>
-              <value>${scalateEditor}</value>
+              <value>${scalate.editor}</value>
             </systemProperty>
             <systemProperty>
               <name>scalate.workdir</name>
@@ -282,17 +202,17 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>tomcat-maven-plugin</artifactId>
-        <version>${tomcat-plugin-version}</version>
+        <version>${version.plugin.tomcat}</version>
         <configuration>
           <path>/</path>
 
           <systemProperties>
             <!-- enable easy JMX connection to JConsole -->
-            <com.sun.management.jmxremote></com.sun.management.jmxremote>
+            <com.sun.management.jmxremote />
 
             <!-- Scalate console configuration -->
             <scalate.mode>${scalate.mode}</scalate.mode>
-            <scalate.editor>${scalateEditor}</scalate.editor>
+            <scalate.editor>${scalate.editor}</scalate.editor>
             <scalate.workdir>${scalate.workdir}</scalate.workdir>
             <scalate.package.resources>${scalate.package.resources}</scalate.package.resources>
           </systemProperties>
@@ -301,13 +221,14 @@
 
       <plugin>
         <groupId>org.scalatra.scalate</groupId>
-        <artifactId>maven-scalate-plugin_2.10</artifactId>
-        <version>${scalate-version}</version>
+        <artifactId>scalate-maven-plugin_${version.scala.binary}</artifactId>
+        <version>${version.plugin.scalate}</version>
         <executions>
           <execution>
             <goals>
               <goal>precompile</goal>
             </goals>
+            <phase>process-classes</phase>
           </execution>
         </executions>
       </plugin>

@@ -22,42 +22,41 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.scalatra.scalate.samples</groupId>
-    <artifactId>samples_2.10</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <artifactId>samples</artifactId>
+    <version>1.7.1-SNAPSHOT</version>
   </parent>
   
-  <artifactId>scalate-presentation_2.10</artifactId>
+  <artifactId>scalate-presentation</artifactId>
   <packaging>war</packaging>
 
   <name>${project.artifactId}</name>
   <description>Scalate Presentation</description>
 
   <properties>
-    <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+    <netbeans.hint.deploy.server>Tomcat70</netbeans.hint.deploy.server>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-wikitext_2.10</artifactId>
-      <version>${project.version}</version>
+      <artifactId>scalate-wikitext_${version.scala.binary}</artifactId>
+      <version>${version.scalate}</version>
     </dependency>
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-page_2.10</artifactId>
-      <version>${project.version}</version>
+      <artifactId>scalate-page_${version.scala.binary}</artifactId>
+      <version>${version.scalate}</version>
     </dependency>
     
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-nop</artifactId>
-      <version>${slf4j-version}</version>
+      <version>${version.slf4j}</version>
     </dependency>    
 
   </dependencies>
@@ -82,8 +81,8 @@
 
       <plugin>
         <groupId>org.scalatra.scalate</groupId>
-        <artifactId>maven-scalate-plugin_2.10</artifactId>
-        <version>${project.version}</version>
+        <artifactId>scalate-maven-plugin_${version.scala.binary}</artifactId>
+        <version>${version.plugin.scalate</version>
         <configuration>
           <warSourceDirectory>${basedir}/src</warSourceDirectory>
           <remoteServerId>website.fusesource.org</remoteServerId>
@@ -102,7 +101,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.0.2</version>
         <configuration>
           <warSourceDirectory>${basedir}/src</warSourceDirectory>
         </configuration>

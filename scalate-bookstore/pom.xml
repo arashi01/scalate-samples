@@ -22,25 +22,25 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.scalatra.scalate.samples</groupId>
-    <artifactId>samples_2.10</artifactId>
+    <artifactId>samples</artifactId>
     <version>1.7.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>scalate-bookstore_2.10</artifactId>
+  <artifactId>scalate-bookstore</artifactId>
   <packaging>war</packaging>
 
   <name>${project.artifactId}</name>
   <description>Scalate Sample BookStore Web Application</description>
 
   <properties>
-    <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+    <netbeans.hint.deploy.server>Tomcat70</netbeans.hint.deploy.server>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-war_2.10</artifactId>
-      <version>${project.version}</version>
+      <artifactId>scalate-war_${version.scala.binary}</artifactId>
+      <version>${version.scalate}</version>
       <type>war</type>
     </dependency>
 
@@ -49,10 +49,11 @@
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-guice_2.10</artifactId>
-      <version>${project.version}</version>
+      <artifactId>scalate-guice_${version.scala.binary}</artifactId>
+      <version>${version.scalate}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
@@ -62,6 +63,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
+      <version>${version.logback}</version>
       <scope>runtime</scope>
       <optional>true</optional>
     </dependency>
@@ -69,27 +71,32 @@
     <!-- testing -->
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-test_2.10</artifactId>
-      <version>${project.version}</version>
+      <artifactId>scalate-test_${version.scala.binary}</artifactId>
+      <version>${version.scalate}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
-      <version>${scala-version}</version>
+      <version>${version.scala}</version>
     </dependency>
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-compiler</artifactId>
-      <version>${scala-version}</version>
+      <version>${version.scala}</version>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
         <inherited>true</inherited>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
@@ -102,60 +109,19 @@
       </plugin>
 
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${surefire-plugin-version}</version>
-        <configuration>
-          <forkMode>once</forkMode>
-          <!-- these settings are mandatory to avoid SureFire giving a bogus system property to the web container -->
-          <useSystemClassLoader>false</useSystemClassLoader>
-          <useManifestOnlyJar>false</useManifestOnlyJar>
-          <includes>
-            <include>**/*Test.*</include>
-          </includes>
-          <excludes>
-            <exclude>**/QueuesTest.*</exclude>
-            <exclude>**/htmlunit/**.*</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-
-
-      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
       </plugin>
-
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>tomcat-maven-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
-  
-  <profiles>
-    <profile>
-      <id>jdk5</id>
-      <activation>
-        <jdk>1.5</jdk>
-      </activation>
-      
-      <build>
-        <plugins>
-          
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <excludes>
-                <!-- Jersey requires Java 1.6, so this test will fail. -->
-                <exclude>**/SampleTest.*</exclude>
-              </excludes>
-            </configuration>
-          </plugin>          
-
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
     
 </project>
 

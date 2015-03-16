@@ -23,16 +23,17 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.scalatra.scalate</groupId>
-    <artifactId>scalate-project_2.10</artifactId>
+    <artifactId>scalate-pom</artifactId>
     <version>1.7.1-SNAPSHOT</version>
   </parent>
 
   <groupId>org.scalatra.scalate.samples</groupId>
-  <artifactId>samples_2.10</artifactId>
+  <artifactId>samples</artifactId>
 
   <packaging>pom</packaging>
 
   <name>${project.artifactId}</name>
+  <description>Scalate Sample Projects POM</description>
 
   <modules>
     <module>scalate-sample</module>
@@ -42,6 +43,59 @@
     <module>scalate-sample-spring-mvc</module>
     <module>scalate-bookstore</module>
   </modules>
+
+  <properties>
+    <version.logback>1.1.2</version.logback>
+    <version.scalamd>1.6.1</version.scalamd>
+    <version.scalate>1.7.1-SNAPSHOT</version.scalate>
+    <version.spring>3.1.2.RELEASE</version.spring>
+    <version.plugin.scalate>1.7.1-SNAPSHOT</version.plugin.scalate>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${version.servletApi}</version>
+        <scope>provided</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.scalatra.scalate</groupId>
+          <artifactId>scalate-maven-plugin_${version.scala.binary}</artifactId>
+          <version>${version.plugin.scalate}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${version.plugin.maven.surefire}</version>
+        <configuration>
+          <forkMode>once</forkMode>
+          <!-- these settings are mandatory to avoid SureFire giving a bogus system property to the web container -->
+          <useSystemClassLoader>false</useSystemClassLoader>
+          <useManifestOnlyJar>false</useManifestOnlyJar>
+          <includes>
+            <include>**/*Test.*</include>
+          </includes>
+          <excludes>
+            <exclude>**/QueuesTest.*</exclude>
+            <exclude>**/htmlunit/**.*</exclude>
+          </excludes>
+        </configuration>
+        <inherited>true</inherited>
+      </plugin>
+    </plugins>
+  </build>
 
   <profiles>
     <profile>
